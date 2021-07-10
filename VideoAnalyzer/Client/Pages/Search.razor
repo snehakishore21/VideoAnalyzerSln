@@ -1,0 +1,82 @@
+﻿@page "/Search"
+@page "/Search/{keyword}"
+@layout VideoAnalyzer.Client.Themes.PTI.PTIDefaultLayout
+@using SV = VideoAnalyzer.Shared.Models.AzureVideoIndexer.SearchVideos
+@using VideoAnalyzer.Client.CustomComponents
+@inject HttpClient httpClient
+
+<div class="container">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Type text to search" @bind="@Keyword" />
+        <button type="button" class="@CurrentTheme.PrimaryButtonClass"
+                @onclick="SearchVideos">
+            Search
+        </button>
+    </div>
+</div>
+
+
+@if (IsLoading)
+{
+<LoadingIndicator></LoadingIndicator> }
+            else
+            {
+@if (this.FoundVideos != null)
+{
+<div class="row">
+    @foreach (var videoInfo in this.FoundVideos.results)
+    {
+<VideoCard LinkUrl="@this.VideosPageUrls[videoInfo.id]"
+           ThumbnailSrc="@this.VideosThumbnails[videoInfo.id]"
+           VideoDescription="@videoInfo.description"
+           VideoName="@videoInfo.name">
+</VideoCard>}
+</div>}
+                <div class="row">
+                    @Message
+                </div>}
+
+
+@code
+{ [CascadingParameter]
+    private Themes.ThemeConfiguration CurrentTheme { get; set; }
+    [Parameter]
+    public string Keyword { get; set; }
+    private string Message { get; set; }
+    private SV.SearchVideosResponse FoundVideos { get; set; }
+    public bool IsLoading { get; set; }
+    private Dictionary<string, string> VideosThumbnails { get; set; } = new Dictionary<string, string>();
+    private Dictionary<string, string> VideosPageUrls { get; set; } = new Dictionary<string, string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!String.IsNullOrWhiteSpace(this.Keyword))
+        {
+            await SearchVideos();
+        }
+    }
+
+    private async Task SearchVideos()
+    {
+        //throw new NotImplementedException();
+        this.IsLoading = true;
+        string location = await httpClient.GetStringAsync("VideoIndexer/GetLocation");
+        this.FoundVideos = await httpClient.GetFromJsonAsync<SV.SearchVideosResponse>($"VideoIndexer" +
+        $"/SearchVideos?keyword={Keyword}");
+        foreach (var singleVideo in this.FoundVideos.results)
+        {
+            var thumbnailBase64 = await httpClient.GetStringAsync($"VideoIndexer/GetVideoThumbnail" +
+                $"?videoId={singleVideo.id}&thumbnailId={singleVideo.thumbnailId}");
+            var imgSrc = String.Format("data:image/gif;base64,{0}", thumbnailBase64);
+            this.VideosThumbnails.Add(singleVideo.id, imgSrc);
+            var videoAccesstoken = await httpClient.GetStringAsync($"VideoIndexer/GetVideoAccessToken" +
+                $"?videoId={singleVideo.id}&allowEdit=true");
+            string link = $"/Video/{singleVideo.accountId}/{singleVideo.id}/{location}/{videoAccesstoken}";
+            this.VideosPageUrls.Add(singleVideo.id, link);
+        };
+        this.IsLoading = false;
+        if (this.FoundVideos.results.Count == 0)
+        {
+            this.Message = "No data found";
+        }
+    } }

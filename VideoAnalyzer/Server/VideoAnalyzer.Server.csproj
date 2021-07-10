@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>5ee6af21-ee0f-4995-b5aa-ae4a9aafda1d</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\VideoAnalyzer.Client.csproj" />
+    <ProjectReference Include="..\Shared\VideoAnalyzer.Shared.csproj" />
+  </ItemGroup>
+
+
+</Project>

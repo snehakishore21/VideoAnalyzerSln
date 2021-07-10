@@ -1,0 +1,37 @@
+﻿@page "/"
+@layout VideoAnalyzer.Client.Themes.PTI.PTIDefaultLayout
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> Loc
+
+<img src="videoanalyzerimage.png" height="200"  width="200"  align="middle"/>
+
+<h1 class="row" style="text-align:center;">
+@Title
+</h1>
+
+
+@code
+{
+    private string Title
+    {
+        get
+        {
+            return Loc["Title"];
+        }
+    }
+
+    private string WelcomeMessage
+    {
+        get
+        {
+            return Loc["WelcomeMessage"];
+        }
+    }
+
+    private string CourseUrl
+    {
+        get
+        {
+            return Loc["CourseUrl"];
+        }
+    }
+}

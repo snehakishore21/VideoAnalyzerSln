@@ -1,0 +1,80 @@
+﻿@page "/Upload"
+@layout VideoAnalyzer.Client.Themes.PTI.PTIDefaultLayout
+@using VideoAnalyzer.Client.Themes
+@using VideoAnalyzer.Shared
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Upload> Loc
+@inject HttpClient httpClient
+
+<EditForm Model="@this.Model" OnValidSubmit="this.UploadVideo">
+    <DataAnnotationsValidator>
+    </DataAnnotationsValidator>
+    <ValidationSummary>
+    </ValidationSummary>
+    <div class="container">
+        <div class="form-group">
+            <span class="@CurrentTheme.RequiredFieldIndicatorClass">*</span>
+            <label>
+                @Loc["TextName"]
+            </label>
+            <InputText class="form-control" placeholder="@Loc["TextTypeVideoName"]" @bind-Value="this.Model.Name" />
+            <ValidationMessage For="@(() => Model.Name)" />
+        </div>
+        <div class="from-group">
+            <span class="@CurrentTheme.RequiredFieldIndicatorClass">*</span>
+            <label>
+                @Loc["TextSourceVideoUrl"]
+            </label>
+            <InputText class="form-control" placeholder="@Loc["TextTypeSourceVideoUrl"]" @bind-Value="Model.VideoUrl" />
+            <ValidationMessage For="@(() => Model.VideoUrl)" />
+        </div>
+        <div class="form-check">
+            <InputCheckbox type="checkbox" class="form-check-input" @bind-Value="Model.SendSuccessEmail" />
+            <label>
+                @Loc["TextSendSuccessEmail"]
+            </label>
+        </div>
+        <div class="form-group">
+            @if (IsUploading == false)
+            {
+                <button type="submit" class="@CurrentTheme.PrimaryButtonClass">@Loc["TextUpload"]</button>
+            }
+            else
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</EditForm>
+<div class="row">
+    @Message
+</div>
+
+@code {
+    [CascadingParameter]
+    private ThemeConfiguration CurrentTheme { get; set; }
+    private UploadVideoModel Model { get; set; } = new UploadVideoModel();
+    private bool IsUploading { get; set; } = false;
+    private string Message { get; set; }
+
+    private async Task UploadVideo()
+    {
+        IsUploading = true;
+        await Task.Delay(6000);
+        UploadVideoModel model =
+            new UploadVideoModel()
+            {
+                //CallbackUrl = this.Configuration["TestUploadVideoCallbackUrl"],
+                Name = this.Model.Name,
+                SendSuccessEmail = this.Model.SendSuccessEmail,
+                VideoUrl = this.Model.VideoUrl
+            };
+        var result = await httpClient
+            .PostAsJsonAsync<UploadVideoModel>("/VideoIndexer/UploadVideo", model);
+        this.Message = result.ReasonPhrase;
+        IsUploading = false;
+    }
+}
