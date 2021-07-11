@@ -1,11 +1,21 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css');
+
+
+
+
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 a, .btn-link {
-    color: #0366d6;
+    color: #ffffff;
+}
+
+.ul {
+    list-style-type: none;
 }
 
 .btn-primary {
@@ -13,6 +23,339 @@ a, .btn-link {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
+
+.searchtitle input[type=text] {
+    width: 400px;
+    height: 40px;
+    border-radius: 25px;
+    border: none;
+}
+
+.searchtitle {
+    float: left;
+    margin: 7px;
+}
+
+    .searchtitle button {
+        background-color: #0074D9;
+        color: #f2f2f2;
+        float: left;
+        padding: 5px 10px;
+        margin-right: 16px;
+        font-size: 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+langbody {
+    font-family: 'Didact Gothic', sans-serif;
+    color: #333;
+    box-sizing: border-box;
+}
+
+
+langheader {
+    background-color: #f2f2f2;
+    height: 110px;
+    padding: 10px 0;
+}
+
+langnav {
+    margin-right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.langlogo {
+    width: 100px;
+}
+
+    .langlogo img {
+        width: 100px;
+    }
+
+.lang-menu {
+    width: 150px;
+    text-align: right;
+    font-weight: bold;
+    align-content:center;
+    vertical-align:central;
+    position: relative;
+}
+
+    .lang-menu .selected-lang {
+        display: flex;
+        justify-content: space-between;
+        line-height: 2;
+        cursor: pointer;
+    }
+
+        .lang-menu .selected-lang:before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background-image: url(https://www.countryflags.io/us/flat/32.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+    .lang-menu ul {
+        margin: 0;
+        padding: 0;
+        display: none;
+        background-color: #fff;
+        border: 1px solid #f8f8f8;
+        position: absolute;
+        top: 45px;
+        right: 0px;
+        width: 125px;
+        border-radius: 5px;
+        box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
+    }
+
+
+        .lang-menu ul li {
+            list-style: none;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .lang-menu ul li a {
+                text-decoration: none;
+                width: 125px;
+                padding: 5px 10px;
+                display: block;
+            }
+
+            .lang-menu ul li:hover {
+                background-color: #f2f2f2;
+            }
+
+            .lang-menu ul li a:before {
+                content: '';
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                vertical-align: middle;
+                margin-right: 10px;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+.de:before {
+    background-image: url(https://www.countryflags.io/de/flat/32.png);
+}
+
+.en:before {
+    background-image: url(https://www.countryflags.io/us/flat/32.png);
+}
+
+.fr:before {
+    background-image: url(https://www.countryflags.io/fr/flat/32.png);
+}
+
+.ar:before {
+    background-image: url(https://www.countryflags.io/ae/flat/32.png);
+}
+
+
+
+.cn:before {
+    background-image: url(https://www.countryflags.io/cn/flat/32.png);
+}
+
+.cz:before {
+    background-image: url(https://www.countryflags.io/cz/flat/32.png);
+}
+
+.tr:before {
+    background-image: url(https://www.countryflags.io/tr/flat/32.png);
+}
+
+.se:before {
+    background-image: url(https://www.countryflags.io/se/flat/32.png);
+}
+
+
+.es:before {
+    background-image: url(https://www.countryflags.io/es/flat/32.png);
+}
+
+.ru:before {
+    background-image: url(https://www.countryflags.io/ru/flat/32.png);
+}
+
+.pl:before {
+    background-image: url(https://www.countryflags.io/pl/flat/32.png);
+}
+
+.in:before {
+    background-image: url(https://www.countryflags.io/in/flat/32.png);
+}
+
+
+.lang-menu:hover ul {
+    display: block;
+}
+
+.instance {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+    .instance .sgLi {
+        min-width: 24%;
+        margin: 2% .35%;
+        display: inline-flex;
+        box-shadow: 0 2px 4px rgba(0,0,0, .2);
+    }
+
+        .instance .sgLi:hover {
+            box-shadow: 0 5px 10px rgba(0,0,0,.15);
+        }
+
+    .instance .box {
+        width: 100%;
+        height: 100vh;
+        padding: 1% 2%;
+        background: #fff;
+        min-height: 200px;
+        max-height: 220px;
+        box-sizing: border-box;
+    }
+
+.SG {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+    .SG .sgLi {
+        min-width: 24%;
+        margin: 2% .35%;
+        display: inline-flex;
+        box-shadow: 0 2px 4px rgba(0,0,0, .2);
+    }
+
+        .SG .sgLi:hover {
+            box-shadow: 0 5px 10px rgba(0,0,0,.15);
+        }
+
+    .SG .box {
+        width: 100%;
+        padding: 1% 2%;
+        background: #fff;
+        box-sizing: border-box;
+    }
+/*Styles */
+.df {
+    list-style-type: disc;
+}
+.search input[type=text] {
+    width: 400px;
+    height: 40px;
+    border-radius: 25px;
+    border: none;
+}
+
+.search {
+    float: left;
+    margin: 7px;
+}
+
+    .search button {
+        background-color: #0074D9;
+        color: #f2f2f2;
+        float: left;
+        padding: 5px 10px;
+        margin-right: 16px;
+        font-size: 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+.button_transcript {
+    display: inline-block;
+    background-color: #4169e1;
+    border-radius: 10px;
+    border: 4px double #cccccc;
+    color: #eeeeee;
+    text-align: center;
+    vertical-align:central;
+    padding: 20px;
+    height: 20px;
+    width: fit-content;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+    .button_transcript span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+        .button_transcript span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+    .button_transcript:hover {
+        background-color: #008000;
+    }
+
+        .button_transcript:hover span {
+            padding-right: 25px;
+        }
+
+            .button_transcript:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+
+
+form.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+}
+
+form.example button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+
+    form.example button:hover {
+        background: #0b7dda;
+    }
+
+form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+
 
 app {
     position: relative;
@@ -25,6 +368,12 @@ app {
     height: 3.5rem;
     display: flex;
     align-items: center;
+}
+
+.language_css {
+    background-image: linear-gradient(180deg, #000000 30%, #302f2f 70%);
+    margin-left: 8rem;
+    color:#ffffff 
 }
 
 .main {

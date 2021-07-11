@@ -5,40 +5,66 @@
 @using VideoAnalyzer.Client.CustomComponents
 @inject HttpClient httpClient
 
-<div class="container">
-    <div class="form-group">
-        <input type="text" class="form-control" placeholder="Type text to search" @bind="@Keyword" />
-        <button type="button" class="@CurrentTheme.PrimaryButtonClass"
-                @onclick="SearchVideos">
-            Search
-        </button>
-    </div>
+<ul>
+<li>
+<div class="search"> 
+    <form action="#">
+                <input type="text"
+                    placeholder="Search..."
+                    name="search"
+                    @bind="@Keyword">
+                <button @onclick="SearchVideos" type="button">
+                    <i class="oi oi-magnifying-glass"
+                        style="font-size: 18px;">
+                    </i>
+                </button>
+   </form>
 </div>
-
-
+</li>
 @if (IsLoading)
 {
 <LoadingIndicator></LoadingIndicator> }
             else
             {
 @if (this.FoundVideos != null)
-{
-<div class="row">
-    @foreach (var videoInfo in this.FoundVideos.results)
     {
-<VideoCard LinkUrl="@this.VideosPageUrls[videoInfo.id]"
+        <li>
+            <div class="row">
+
+                @foreach (var videoInfo in this.FoundVideos.results)
+                {
+                    <ul >
+                        <li>
+                            <VideoCard LinkUrl="@this.VideosPageUrls[videoInfo.id]"
            ThumbnailSrc="@this.VideosThumbnails[videoInfo.id]"
            VideoDescription="@videoInfo.description"
            VideoName="@videoInfo.name">
-</VideoCard>}
-</div>}
+                            </VideoCard>
+                        </li>
+                        <li>
+                            <div class="instance">
+                                <a class="box">
+                                    @this.Instances[videoInfo.id]
+                                </a>
+                            </div>
+                        </li> 
+                    </ul>
+                }
+</div>
+</li>}
+
+<li>
                 <div class="row">
                     @Message
-                </div>}
+                </div>
+            </li>}
+                 </ul>
+               
 
 
 @code
-{ [CascadingParameter]
+{
+    [CascadingParameter]
     private Themes.ThemeConfiguration CurrentTheme { get; set; }
     [Parameter]
     public string Keyword { get; set; }
@@ -47,7 +73,7 @@
     public bool IsLoading { get; set; }
     private Dictionary<string, string> VideosThumbnails { get; set; } = new Dictionary<string, string>();
     private Dictionary<string, string> VideosPageUrls { get; set; } = new Dictionary<string, string>();
-
+    private  Dictionary<string, string> Instances { get; set; }= new Dictionary<string, string>();
     protected override async Task OnInitializedAsync()
     {
         if (!String.IsNullOrWhiteSpace(this.Keyword))
@@ -73,10 +99,20 @@
                 $"?videoId={singleVideo.id}&allowEdit=true");
             string link = $"/Video/{singleVideo.accountId}/{singleVideo.id}/{location}/{videoAccesstoken}";
             this.VideosPageUrls.Add(singleVideo.id, link);
+            var timespanlist = await httpClient.GetStringAsync($"VideoIndexer/GetInstancesOfKeywordPerVideo" +
+                $"?query={Keyword}&videoId={singleVideo.id}");
+
+            if (timespanlist.ToString() != "")
+            { this.Instances.Add(singleVideo.id, timespanlist.ToString()); }
+            else
+            {
+                 this.Instances.Add(singleVideo.id,"No instances fetched. Click on the link to explore more."); 
+            }
         };
         this.IsLoading = false;
         if (this.FoundVideos.results.Count == 0)
         {
             this.Message = "No data found";
         }
-    } }
+    } 
+}

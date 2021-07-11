@@ -147,6 +147,80 @@ namespace VideoAnalyzer.Server.Controllers
             return Ok(lstKeywords.OrderByDescending(p=>p.Appeareances).ToList());
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllTopics()
+        {
+            List<KeywordInfoModel> lstKeywords = null;
+            this.MemoryCache.TryGetValue<List<KeywordInfoModel>>
+               (Constants.ALLVIDEOS_TOPICS, out lstKeywords);
+            if (lstKeywords == null)
+            {
+                AzureVideoIndexerHelper helper = new AzureVideoIndexerHelper(this.AzureConfiguration,
+                    this.CreateAuthorizedHttpClient());
+                lstKeywords = await helper.GetAllTopics();
+            }
+            return Ok(lstKeywords.OrderByDescending(p => p.Appeareances).ToList());
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllLabels()
+        {
+            List<KeywordInfoModel> lstKeywords = null;
+            this.MemoryCache.TryGetValue<List<KeywordInfoModel>>
+               (Constants.ALLVIDEOS_LABELS, out lstKeywords);
+            if (lstKeywords == null)
+            {
+                AzureVideoIndexerHelper helper = new AzureVideoIndexerHelper(this.AzureConfiguration,
+                    this.CreateAuthorizedHttpClient());
+                lstKeywords = await helper.GetAllLabels();
+            }
+            return Ok(lstKeywords.OrderByDescending(p => p.Appeareances).ToList());
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllBrands()
+        {
+            List<KeywordInfoModel> lstKeywords = null;
+            this.MemoryCache.TryGetValue<List<KeywordInfoModel>>
+               (Constants.ALLVIDEOS_BRANDS, out lstKeywords);
+            if (lstKeywords == null)
+            {
+                AzureVideoIndexerHelper helper = new AzureVideoIndexerHelper(this.AzureConfiguration,
+                    this.CreateAuthorizedHttpClient());
+                lstKeywords = await helper.GetAllBrands();
+            }
+            return Ok(lstKeywords.OrderByDescending(p => p.Appeareances).ToList());
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllNamedLocations()
+        {
+            List<KeywordInfoModel> lstKeywords = null;
+            this.MemoryCache.TryGetValue<List<KeywordInfoModel>>
+               (Constants.ALLVIDEOS_LOCATIONS, out lstKeywords);
+            if (lstKeywords == null)
+            {
+                AzureVideoIndexerHelper helper = new AzureVideoIndexerHelper(this.AzureConfiguration,
+                    this.CreateAuthorizedHttpClient());
+                lstKeywords = await helper.GetAllNamedLocations();
+            }
+            return Ok(lstKeywords.OrderByDescending(p => p.Appeareances).ToList());
+        }
+
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetInstancesOfKeywordPerVideo(string query, string videoid)
+        {
+            List<SearchQueryDetail> lstKeywords = null;
+            if (lstKeywords == null)
+            {
+                AzureVideoIndexerHelper helper = new AzureVideoIndexerHelper(this.AzureConfiguration,
+                    this.CreateAuthorizedHttpClient());
+                lstKeywords = await helper.GetInstancesOfKeywordPerVideo(query, videoid);
+            }
+            return Ok(lstKeywords.OrderByDescending(p => p.Appeareances).ToList());
+        }
+
         private string EncodeUrl(string url)
         {
             return System.Web.HttpUtility.UrlPathEncode(url);
@@ -203,6 +277,27 @@ namespace VideoAnalyzer.Server.Controllers
                 $"/Videos/{videoId}" +
                 $"/Thumbnails/{thumbnailId}" +
                 $"?format={format}" +
+                $"&accessToken={videoAccessToken}";
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key",
+                this.AzureConfiguration.VideoIndexerConfiguration.SubscriptionKey);
+            var result = await client.GetStringAsync(requestUrl);
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetVideoCaption(string videoId)
+        {
+            AzureVideoIndexerHelper helper = new AzureVideoIndexerHelper(this.AzureConfiguration,
+                this.CreateAuthorizedHttpClient());
+            string videoAccessToken = await helper.GetVideoAccessTokenStringAsync(videoId, true);
+            string format = "Txt";
+            string requestUrl = $"{this.AzureConfiguration.VideoIndexerConfiguration.BaseAPIUrl}" +
+                $"/{this.AzureConfiguration.VideoIndexerConfiguration.Location}" +
+                $"/Accounts/{this.AzureConfiguration.VideoIndexerConfiguration.AccountId}" +
+                $"/Videos/{videoId}/Captions" +
+                 $"?indexId={videoId}" +
+                 $"&format={format}" +
                 $"&accessToken={videoAccessToken}";
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key",

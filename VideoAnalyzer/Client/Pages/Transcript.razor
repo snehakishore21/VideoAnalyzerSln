@@ -1,0 +1,89 @@
+﻿@page "/GetTranscription"
+@layout VideoAnalyzer.Client.Themes.PTI.PTIDefaultLayout
+@using VideoAnalyzer.Shared.Models.AzureVideoIndexer.ListVideos
+@using PTI.BlazorComponents.SocialNetworks.Twitter
+@using PTI.BlazorComponents.SocialNetworks.LinkedIn
+@using VideoAnalyzer.Client.CustomComponents
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
+
+<div class="row">
+    <!--Linked Buttons does not seem to support sharing url when is set to localhost, for dev, you may want to change it-->
+    <!--https://stackoverflow.com/questions/5861550/error-when-using-linkedins-share-button-->
+</div>
+@if (IsLoading)
+{
+    <LoadingIndicator></LoadingIndicator>
+}
+else
+{
+    <div class="row">
+        @foreach (var videoInfo in this.VideosResponse.results)
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul>
+                          <li> <iframe height="230" width="400" src="@this.VideosThumbnails[videoInfo.id]" frameborder="0" allowfullscreen></iframe></li>
+                          <li><strong>"@videoInfo.name"</strong></li>
+                        </ul>>
+                    </div>
+                    <div>
+                       <button type="submit" class="button_transcript" > 
+                            Get Transcript
+                        </button>
+                        <button type="submit" class="button_transcript" > 
+                            Get Summary
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+
+    private ListVideosResponse VideosResponse { get; set; }
+    private Dictionary<string, string> VideosThumbnails { get; set; }
+    private Dictionary<string, string> VideosTranscript { get; set; }
+    private Dictionary<string, string> VideosSummary { get; set; }
+    private Dictionary<string, string> VideosPageUrls { get; set; }
+    private bool IsLoading { get; set; } = false;
+
+    private string EncodedCurrentUrl
+    {
+        get
+        {
+            return System.Web.HttpUtility.UrlPathEncode(NavManager.Uri);
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.IsLoading = true;
+        string location = await httpClient.GetStringAsync("VideoIndexer/GetLocation");
+        this.VideosResponse = await httpClient.GetFromJsonAsync<ListVideosResponse>("VideoIndexer/ListVideos");
+        this.VideosThumbnails = new Dictionary<string, string>();
+        this.VideosTranscript = new Dictionary<string, string>();
+        this.VideosSummary = new Dictionary<string, string>();
+        this.VideosPageUrls = new Dictionary<string, string>();
+        foreach (var singleVideo in this.VideosResponse.results)
+        {
+            var thumbnailBase64 = await httpClient.GetStringAsync($"VideoIndexer/GetVideoThumbnail" +
+                $"?videoId={singleVideo.id}&thumbnailId={singleVideo.thumbnailId}");
+            var imgSrc = String.Format("data:image/gif;base64,{0}", thumbnailBase64);
+            var Caption = await httpClient.GetStringAsync($"VideoIndexer/GetVideoCaption" +
+                $"?videoId={singleVideo.id}");
+            this.VideosTranscript.Add(singleVideo.id, Caption);
+            this.VideosThumbnails.Add(singleVideo.id, imgSrc);
+            var videoAccesstoken = await httpClient.GetStringAsync($"VideoIndexer/GetVideoAccessToken" +
+                $"?videoId={singleVideo.id}&allowEdit=true");
+            string link = $"/Video/{singleVideo.accountId}/{singleVideo.id}/{location}/{videoAccesstoken}";
+            this.VideosPageUrls.Add(singleVideo.id, link);
+        };
+        this.IsLoading = false;
+    }
+
+}

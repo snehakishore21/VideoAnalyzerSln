@@ -63,6 +63,187 @@ namespace VideoAnalyzer.Shared.Helpers
             return result;
         }
 
+        public async Task<GetVideoIndexResponse> GetRequiredVideos(string VideoId)
+        {
+            string videoAccessToken = await this.GetVideoAccessTokenStringAsync(VideoId, true);
+            string requestUrl = $"https://api.videoindexer.ai" +
+                $"/{this.AzureConfiguration.VideoIndexerConfiguration.Location}" +
+                $"/Accounts/{this.AzureConfiguration.VideoIndexerConfiguration.AccountId}" +
+                $"/Videos/{VideoId}" +
+                $"/Index" +
+                $"?accessToken={videoAccessToken}";
+            var videoIndexResult = await this.HttpClient.GetFromJsonAsync<GetVideoIndexResponse>(requestUrl);
+            return videoIndexResult;
+        }
+        public async Task<List<SearchQueryDetail>> GetInstancesOfKeywordPerVideo(string searchqery, string VideoId)
+        {
+            List<SearchQueryDetail> lstKeywords = new List<SearchQueryDetail>();
+
+                var singleVideoIndex = await this.GetRequiredVideos(VideoId);
+                if (singleVideoIndex.summarizedInsights.keywords.Count() > 0)
+                {
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.keywords)
+                    {
+                        if (singleKeyword.name == searchqery)
+                        {
+                            var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+
+                            if (existentKeyWordInfo != null)
+                            {
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    existentKeyWordInfo.Appeareances.Add(item.startTime + "-" + item.endTime);
+                                }
+                            }
+                            else
+                            {
+                                List<string> Instances = new List<string>();
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    Instances.Add(item.startTime + "-" + item.endTime);
+                                }
+                                existentKeyWordInfo = new SearchQueryDetail()
+                                {
+                                    Keyword = singleKeyword.name,
+                                    Appeareances = Instances
+                                };
+                                lstKeywords.Add(existentKeyWordInfo);
+                            }
+                        }
+                    }
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.labels)
+                    {
+                        if (singleKeyword.name == searchqery)
+                        {
+                            var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+
+                            if (existentKeyWordInfo != null)
+                            {
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    existentKeyWordInfo.Appeareances.Add(item.startTime + "-" + item.endTime);
+                                }
+                            }
+                            else
+                            {
+                                List<string> Instances = new List<string>();
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    Instances.Add(item.startTime + "-" + item.endTime);
+                                }
+                                existentKeyWordInfo = new SearchQueryDetail()
+                                {
+                                    Keyword = singleKeyword.name,
+                                    Appeareances = Instances
+                                };
+                                lstKeywords.Add(existentKeyWordInfo);
+                            }
+                        }
+
+                    }
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.namedLocations)
+                    {
+                        if (singleKeyword.name == searchqery)
+                        {
+                            var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+
+                            if (existentKeyWordInfo != null)
+                            {
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    existentKeyWordInfo.Appeareances.Add(item.startTime + "-" + item.endTime);
+                                }
+                            }
+                            else
+                            {
+                                List<string> Instances = new List<string>();
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    Instances.Add(item.startTime + "-" + item.endTime);
+                                }
+                                existentKeyWordInfo = new SearchQueryDetail()
+                                {
+                                    Keyword = singleKeyword.name,
+                                    Appeareances = Instances
+                                };
+                                lstKeywords.Add(existentKeyWordInfo);
+                            }
+                        }
+                    }
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.namedPeople)
+                    {
+
+                    }
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.topics)
+                    {
+                        if (singleKeyword.name == searchqery)
+                        {
+                            var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+
+                            if (existentKeyWordInfo != null)
+                            {
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    existentKeyWordInfo.Appeareances.Add(item.startTime + "-" + item.endTime);
+                                }
+                            }
+                            else
+                            {
+                                List<string> Instances = new List<string>();
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    Instances.Add(item.startTime + "-" + item.endTime);
+                                }
+                                existentKeyWordInfo = new SearchQueryDetail()
+                                {
+                                    Keyword = singleKeyword.name,
+                                    Appeareances = Instances
+                                };
+                                lstKeywords.Add(existentKeyWordInfo);
+                            }
+                        }
+                    }
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.brands)
+                    {
+                        if (singleKeyword.name == searchqery)
+                        {
+                            var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+
+                            if (existentKeyWordInfo != null)
+                            {
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    existentKeyWordInfo.Appeareances.Add(item.startTime + "-" + item.endTime);
+                                }
+                            }
+                            else
+                            {
+                                List<string> Instances = new List<string>();
+                                foreach (AppearancesItem item in singleKeyword.appearances)
+                                {
+                                    Instances.Add(item.startTime + "-" + item.endTime);
+                                }
+                                existentKeyWordInfo = new SearchQueryDetail()
+                                {
+                                    Keyword = singleKeyword.name,
+                                    Appeareances = Instances
+                                };
+                                lstKeywords.Add(existentKeyWordInfo);
+                            }
+                        }
+                    }
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.audioEffects)
+                    {
+
+                    }
+                
+
+
+
+            }
+
+            return lstKeywords.Distinct().ToList();
+        }
         public async Task<List<KeywordInfoModel>> GetAllKeywords()
         {
             List<KeywordInfoModel> lstKeywords = new List<KeywordInfoModel>();
@@ -93,6 +274,131 @@ namespace VideoAnalyzer.Shared.Helpers
             }
             return lstKeywords.Distinct().ToList();
         }
+
+        public async Task<List<KeywordInfoModel>> GetAllTopics()
+        {
+            List<KeywordInfoModel> lstKeywords = new List<KeywordInfoModel>();
+            var allVideos = await this.GetAllVideos();
+            foreach (var singleVideo in allVideos.results)
+            {
+                var singleVideoIndex = await this.GetVideoIndex(singleVideo);
+                if (singleVideoIndex.summarizedInsights.topics.Count() > 0)
+                {
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.topics)
+                    {
+                        var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+                        if (existentKeyWordInfo != null)
+                        {
+                            existentKeyWordInfo.Appeareances += singleKeyword.appearances.Count();
+                        }
+                        else
+                        {
+                            existentKeyWordInfo = new KeywordInfoModel()
+                            {
+                                Keyword = singleKeyword.name,
+                                Appeareances = singleKeyword.appearances.Count()
+                            };
+                            lstKeywords.Add(existentKeyWordInfo);
+                        }
+                    }
+                }
+            }
+            return lstKeywords.Distinct().ToList();
+        }
+
+        public async Task<List<KeywordInfoModel>> GetAllBrands()
+        {
+            List<KeywordInfoModel> lstKeywords = new List<KeywordInfoModel>();
+            var allVideos = await this.GetAllVideos();
+            foreach (var singleVideo in allVideos.results)
+            {
+                var singleVideoIndex = await this.GetVideoIndex(singleVideo);
+                if (singleVideoIndex.summarizedInsights.brands.Count() > 0)
+                {
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.brands)
+                    {
+                        var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+                        if (existentKeyWordInfo != null)
+                        {
+                            existentKeyWordInfo.Appeareances += singleKeyword.appearances.Count();
+                        }
+                        else
+                        {
+                            existentKeyWordInfo = new KeywordInfoModel()
+                            {
+                                Keyword = singleKeyword.name,
+                                Appeareances = singleKeyword.appearances.Count()
+                            };
+                            lstKeywords.Add(existentKeyWordInfo);
+                        }
+                    }
+                }
+            }
+            return lstKeywords.Distinct().ToList();
+        }
+
+        public async Task<List<KeywordInfoModel>> GetAllLabels()
+        {
+            List<KeywordInfoModel> lstKeywords = new List<KeywordInfoModel>();
+            var allVideos = await this.GetAllVideos();
+            foreach (var singleVideo in allVideos.results)
+            {
+                var singleVideoIndex = await this.GetVideoIndex(singleVideo);
+                if (singleVideoIndex.summarizedInsights.labels.Count() > 0)
+                {
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.labels)
+                    {
+                        var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+                        if (existentKeyWordInfo != null)
+                        {
+                            existentKeyWordInfo.Appeareances += singleKeyword.appearances.Count();
+                        }
+                        else
+                        {
+                            existentKeyWordInfo = new KeywordInfoModel()
+                            {
+                                Keyword = singleKeyword.name,
+                                Appeareances = singleKeyword.appearances.Count()
+                            };
+                            lstKeywords.Add(existentKeyWordInfo);
+                        }
+                    }
+                }
+            }
+            return lstKeywords.Distinct().ToList();
+        }
+
+        public async Task<List<KeywordInfoModel>> GetAllNamedLocations()
+        {
+            List<KeywordInfoModel> lstKeywords = new List<KeywordInfoModel>();
+            var allVideos = await this.GetAllVideos();
+            foreach (var singleVideo in allVideos.results)
+            {
+                var singleVideoIndex = await this.GetVideoIndex(singleVideo);
+                if (singleVideoIndex.summarizedInsights.namedLocations.Count() > 0)
+                {
+                    foreach (var singleKeyword in singleVideoIndex.summarizedInsights.namedLocations)
+                    {
+                        var existentKeyWordInfo = lstKeywords.Where(p => p.Keyword == singleKeyword.name).SingleOrDefault();
+                        if (existentKeyWordInfo != null)
+                        {
+                            existentKeyWordInfo.Appeareances += singleKeyword.appearances.Count();
+                        }
+                        else
+                        {
+                            existentKeyWordInfo = new KeywordInfoModel()
+                            {
+                                Keyword = singleKeyword.name,
+                                Appeareances = singleKeyword.appearances.Count()
+                            };
+                            lstKeywords.Add(existentKeyWordInfo);
+                        }
+                    }
+                }
+            }
+            return lstKeywords.Distinct().ToList();
+        }
+
 
         public async Task<GetAllPersonsModel> GetAllPersonsData()
         {

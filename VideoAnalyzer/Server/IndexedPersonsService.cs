@@ -35,9 +35,17 @@ namespace VideoAnalyzer.Server
                     this.HttpClientFactory.CreateClient());
                 var taskGetAllPersonsData = helper.GetAllPersonsData();
                 var taskGetAllKeywordsAction = helper.GetAllKeywords();
+                var taskGetAllBrands = helper.GetAllBrands();
+                var taskGetAllTopics = helper.GetAllTopics();
+                var taskGetAllNamedLocations = helper.GetAllNamedLocations();
+                var taskGetAllLabels = helper.GetAllLabels();
                 Task.WaitAll(new Task[] {taskGetAllPersonsData, taskGetAllKeywordsAction });
                 this.MemoryCache.Set<GetAllPersonsModel>(Constants.ALLPERSONS_INFO, taskGetAllPersonsData.Result);
                 this.MemoryCache.Set<List<KeywordInfoModel>>(Constants.ALLVIDEOS_KEYWORDS, taskGetAllKeywordsAction.Result);
+                this.MemoryCache.Set<List<KeywordInfoModel>>(Constants.ALLVIDEOS_BRANDS, taskGetAllBrands.Result);
+                this.MemoryCache.Set<List<KeywordInfoModel>>(Constants.ALLVIDEOS_LABELS, taskGetAllLabels.Result);
+                this.MemoryCache.Set<List<KeywordInfoModel>>(Constants.ALLVIDEOS_LOCATIONS, taskGetAllNamedLocations.Result);
+                this.MemoryCache.Set<List<KeywordInfoModel>>(Constants.ALLVIDEOS_TOPICS, taskGetAllTopics.Result);
                 await Task.Delay(TimeSpan.FromMinutes(5));
             }
         }

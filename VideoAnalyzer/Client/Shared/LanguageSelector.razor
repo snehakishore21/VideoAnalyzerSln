@@ -3,17 +3,53 @@
 @inject NavigationManager Nav
 @inject Microsoft.Extensions.Localization.IStringLocalizer<LanguageSelector> Loc
 
-<div class="form-group">
-    <label>
-        <strong>@Loc["TextSelectLanguage"]</strong>
-    </label>
-    <select @bind="Culture" class="form-control">
-        @foreach (var culture in supportedCultures)
-        {
-            <option value="@culture">@culture.DisplayName</option>
-        }
-    </select>
-</div>
+<langnav>
+            <div class="lang-menu">
+                <div class="selected-lang">
+                    English
+                </div>
+                <ul>
+                     <li>
+                        <a href="#" class="es">Spanish</a>
+                    </li>
+                    <li>
+                        <a href="#" class="de">German</a>
+                    </li>
+                    <li>
+                        <a href="" class="en">English</a>
+                    </li>
+                    <li>
+                        <a href="" class="fr">French</a>
+                    </li>
+                    <li>
+                        <a href="" class="ar">Arabic</a>
+                    </li>
+                     <li>
+                        <a href="#" class="cn">Chinese</a>
+                    </li>
+                    <li>
+                        <a href="" class="cz">Czech</a>
+                    </li>
+                    <li>
+                        <a href="" class="tr">Turkish</a>
+                    </li>
+                    <li>
+                        <a href="" class="se">Swedish</a>
+                    </li>
+                    
+                    <li>
+                        <a href="" class="ru">Russian</a>
+                    </li>
+                    <li>
+                        <a href="" class="pl">Polish</a>
+                    </li>
+                    <li>
+                        <a href="" class="in">Hindi</a>
+                    </li>
+                </ul>
+                
+            </div>
+        </langnav>
 
 @code
 {
