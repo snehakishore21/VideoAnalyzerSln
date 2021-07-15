@@ -63,6 +63,7 @@ namespace VideoAnalyzer.Shared.Helpers
             return result;
         }
 
+
         public async Task<GetVideoIndexResponse> GetRequiredVideos(string VideoId)
         {
             string videoAccessToken = await this.GetVideoAccessTokenStringAsync(VideoId, true);

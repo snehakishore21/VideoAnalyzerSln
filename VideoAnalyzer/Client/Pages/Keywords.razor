@@ -5,15 +5,12 @@
     <h3>Keywords</h3>
     @if (this.KeywordsInfoResult != null)
     {
-        <ul >
             @foreach (var singleKeyword in this.KeywordsInfoResult)
             {
-            <li >
                 <span class="badge badge-primary badge-pill">@singleKeyword.Appeareances</span>
-                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword</a>
-            </li>
+                <a href="Search/@singleKeyword.Keyword" >@singleKeyword.Keyword  </a>
+
             }
-        </ul>
     }
      </div>
  </li> 
@@ -22,15 +19,11 @@
     <h3>Topics</h3>
     @if (this.TopicsInfoResult != null)
     {
-        <ul >
             @foreach (var singleKeyword in this.TopicsInfoResult)
             {
-            <li >
                 <span class="badge badge-primary badge-pill">@singleKeyword.Appeareances</span>
-                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword</a>
-            </li>
+                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword  </a>
             }
-        </ul>
     }
      </div>
  </li>
@@ -39,15 +32,13 @@
     <h3>Labels</h3>
     @if (this.LabelsInfoResult != null)
     {
-        <ul >
             @foreach (var singleKeyword in this.LabelsInfoResult)
             {
-            <li >
+         
                 <span class="badge badge-primary badge-pill">@singleKeyword.Appeareances</span>
-                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword</a>
-            </li>
+                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword  </a>
+         
             }
-        </ul>
     }
          </div>
  </li>
@@ -56,15 +47,15 @@
     <h3>Brands</h3>
     @if (this.BrandsInfoResult != null)
     {
-        <ul >
+
             @foreach (var singleKeyword in this.BrandsInfoResult)
             {
-            <li >
+         
                 <span class="badge badge-primary badge-pill">@singleKeyword.Appeareances</span>
-                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword</a>
-            </li>
+                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword  </a>
+         
             }
-        </ul>
+
     }
          </div>
  </li>
@@ -73,15 +64,15 @@
     <h3>Locations</h3>
     @if (this.LocationsInfoResult != null)
     {
-        <ul >
+ 
             @foreach (var singleKeyword in this.LocationsInfoResult)
             {
-            <li >
+     
                 <span class="badge badge-primary badge-pill">@singleKeyword.Appeareances</span>
-                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword</a>
-            </li>
+                <a href="Search/@singleKeyword.Keyword">@singleKeyword.Keyword  </a>
+     
             }
-        </ul>
+ 
     }
        </div>
  </li>

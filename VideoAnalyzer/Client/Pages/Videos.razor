@@ -29,7 +29,7 @@ else
     <div class="row">
         @foreach (var videoInfo in this.VideosResponse.results)
         {
-            <VideoCard LinkUrl="@this.VideosPageUrls[videoInfo.id]"
+            <VideoCard  LinkUrl="@this.VideosPageUrls[videoInfo.id]"
                        ThumbnailSrc="@this.VideosThumbnails[videoInfo.id]"
                        VideoDescription="@videoInfo.description"
                        VideoName="@videoInfo.name">

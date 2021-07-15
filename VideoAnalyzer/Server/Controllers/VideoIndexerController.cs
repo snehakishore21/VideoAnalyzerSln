@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using VideoAnalyzer.Shared;
+using System.Text;
+using OpenTextSummarizer.Interfaces;
+using OpenTextSummarizer;
 using VideoAnalyzer.Shared.Helpers;
 using VideoAnalyzer.Shared.Models;
 using VideoAnalyzer.Shared.Models.AzureVideoIndexer.GetPersonModels;
@@ -303,6 +306,8 @@ namespace VideoAnalyzer.Server.Controllers
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key",
                 this.AzureConfiguration.VideoIndexerConfiguration.SubscriptionKey);
             var result = await client.GetStringAsync(requestUrl);
+            //GetSummary(result.ToString());
+            GetTranscript(result);
             return Ok(result);
         }
 
@@ -339,6 +344,36 @@ namespace VideoAnalyzer.Server.Controllers
             HttpClient client = new HttpClient();
             var result = await client.GetFromJsonAsync<SearchVideosResponse>(requestUrl);
             return Ok(result);
+        }
+
+        public void GetTranscript(string transcript)
+        {
+            string fullPath = "C:\\invoice\\abc.txt";
+            using (StreamWriter writer = new StreamWriter(fullPath))
+            {
+                writer.WriteLine(transcript);
+            }
+        }
+        public void GetSummary(string filename)
+        {
+            SummarizerArguments sumargs = new SummarizerArguments
+            {
+                Language = "en",
+                MaxSummarySentences = 1000,
+                MaxSummarySizeInPercent = 30,
+            };
+            OpenTextSummarizer.FileContentProvider f = new FileContentProvider("C:\\invoice\\abc.txt");
+            SummarizedDocument summaryDoc =Summarizer.Summarize(f,sumargs);
+
+            string summary = summaryDoc.ToString();
+            string fullPath = "C:\\invoice\\abc2.txt";
+            using (StreamWriter writer = new StreamWriter(fullPath))
+            {
+                writer.WriteLine(summary);
+            }
+            //SummarizedDocument doc = Summarizer.Summarize(content, sumargs);
+            // string summary = string.Join("\r\n\r\n", doc.Sentences.ToArray());
+            //Console.WriteLine(summary);
         }
 
 

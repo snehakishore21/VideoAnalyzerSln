@@ -4,8 +4,6 @@
 
 
 
-
-
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -14,8 +12,21 @@ a, .btn-link {
     color: #ffffff;
 }
 
-.ul {
-    list-style-type: none;
+VideoCard {
+    height: 230px;
+    width: 400px;
+}
+
+ul {
+    list-style: none;
+}
+title {
+    color: #ffffff;
+    font-size:24px
+}
+
+ul li {
+    list-style: none;
 }
 
 .btn-primary {
@@ -25,10 +36,12 @@ a, .btn-link {
 }
 
 .searchtitle input[type=text] {
-    width: 400px;
-    height: 40px;
-    border-radius: 25px;
+    width: 300px;
+    height: 30px;
+    background: #D3D3D3;
     border: none;
+    border-bottom-left-radius: 25px;
+    border-top-left-radius: 25px;
 }
 
 .searchtitle {
@@ -37,14 +50,17 @@ a, .btn-link {
 }
 
     .searchtitle button {
-        background-color: #0074D9;
+        background: #0074D9;
         color: #f2f2f2;
-        float: left;
+        float: right;
         padding: 5px 10px;
         margin-right: 16px;
         font-size: 12px;
+        height: 30px;
         border: none;
         cursor: pointer;
+        border-bottom-right-radius: 25px;
+        border-top-right-radius: 25px;
     }
 
 langbody {
@@ -61,12 +77,13 @@ langheader {
 }
 
 langnav {
-    margin-right: 1.5rem;
+    float: right;
     display: flex;
     justify-content: space-between;
 }
 
 .langlogo {
+    float: right;
     width: 100px;
 }
 
@@ -75,18 +92,25 @@ langnav {
     }
 
 .lang-menu {
+    float: right;
     width: 150px;
     text-align: right;
     font-weight: bold;
-    align-content:center;
-    vertical-align:central;
+    align-content: center;
+    vertical-align: central;
     position: relative;
 }
 
     .lang-menu .selected-lang {
         display: flex;
-        justify-content: space-between;
+        width: 150px;
+        text-align: left;
+        font-weight: bold;
+        align-content: center;
+        vertical-align: central;
+        position: relative;
         line-height: 2;
+        justify-content:end;
         cursor: pointer;
     }
 
@@ -109,7 +133,7 @@ langnav {
         position: absolute;
         top: 45px;
         right: 0px;
-        width: 125px;
+        width: 150px;
         border-radius: 5px;
         box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
     }
@@ -124,7 +148,7 @@ langnav {
 
             .lang-menu ul li a {
                 text-decoration: none;
-                width: 125px;
+                width: 150px;
                 padding: 5px 10px;
                 display: block;
             }
@@ -198,6 +222,14 @@ langnav {
 
 .lang-menu:hover ul {
     display: block;
+    list-style: none;
+}
+keyword-box {
+    color:black;
+    border-bottom-right-radius: 40px;
+    border-top-left-radius:40px;
+    background: #F8F0E3;
+    box-sizing: border-box;
 }
 
 .instance {
@@ -207,6 +239,7 @@ langnav {
 }
 
     .instance .sgLi {
+        list-style: none;
         min-width: 24%;
         margin: 2% .35%;
         display: inline-flex;
@@ -221,6 +254,7 @@ langnav {
         width: 100%;
         height: 100vh;
         padding: 1% 2%;
+        background: #0000ff;
         background: #fff;
         min-height: 200px;
         max-height: 220px;
@@ -235,46 +269,59 @@ langnav {
 
     .SG .sgLi {
         min-width: 24%;
+        list-style: none;
         margin: 2% .35%;
         display: inline-flex;
+        background: #2A2A2A;
         box-shadow: 0 2px 4px rgba(0,0,0, .2);
     }
 
         .SG .sgLi:hover {
             box-shadow: 0 5px 10px rgba(0,0,0,.15);
+            background: #2A2A2A;
+            list-style: none;
         }
 
     .SG .box {
         width: 100%;
         padding: 1% 2%;
-        background: #fff;
+        border-radius: 10px;
+        background: #2A2A2A;
         box-sizing: border-box;
     }
 /*Styles */
 .df {
-    list-style-type: disc;
+    list-style: none;
 }
 .search input[type=text] {
     width: 400px;
     height: 40px;
-    border-radius: 25px;
+    border: thin;
+    background:#B2FFFF;
     border: none;
+    border-bottom-left-radius: 32px;
+    border-top-left-radius: 32px;
 }
 
 .search {
     float: left;
     margin: 7px;
+   
 }
 
     .search button {
         background-color: #0074D9;
         color: #f2f2f2;
-        float: left;
+        float: right;
+        height: 40px;
+        width: 70px;
         padding: 5px 10px;
         margin-right: 16px;
         font-size: 12px;
         border: none;
         cursor: pointer;
+        border-bottom-right-radius: 25px;
+        border-top-right-radius: 25px;
     }
 
 .button_transcript {
@@ -373,12 +420,12 @@ app {
 .language_css {
     background-image: linear-gradient(180deg, #000000 30%, #302f2f 70%);
     margin-left: 8rem;
-    color:#ffffff 
+    color: #4169e1
 }
 
 .main {
     flex: 1;
-    background-image: linear-gradient(180deg, #d6d5d5 30%, #A9A9A9 70%);
+    background-image: url('background.png');
 }
 
     .main .top-row {
@@ -389,7 +436,6 @@ app {
 
         .main .top-row > a, .main .top-row .btn-link {
             background-image: linear-gradient(180deg, #000000 30%, #302f2f 70%);
-            white-space: nowrap;
             margin-left: 1.5rem;
         }
 

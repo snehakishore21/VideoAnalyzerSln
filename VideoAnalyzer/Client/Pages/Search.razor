@@ -10,7 +10,7 @@
 <div class="search"> 
     <form action="#">
                 <input type="text"
-                    placeholder="Search..."
+                    placeholder="      | Search"
                     name="search"
                     @bind="@Keyword">
                 <button @onclick="SearchVideos" type="button">
@@ -35,7 +35,7 @@
                 {
                     <ul >
                         <li>
-                            <VideoCard LinkUrl="@this.VideosPageUrls[videoInfo.id]"
+                            <VideoCard  LinkUrl="@this.VideosPageUrls[videoInfo.id]"
            ThumbnailSrc="@this.VideosThumbnails[videoInfo.id]"
            VideoDescription="@videoInfo.description"
            VideoName="@videoInfo.name">

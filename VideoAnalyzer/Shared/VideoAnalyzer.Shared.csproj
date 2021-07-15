@@ -17,6 +17,7 @@
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="OpenTextSummarizer" Version="1.0.2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.7" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.7" />

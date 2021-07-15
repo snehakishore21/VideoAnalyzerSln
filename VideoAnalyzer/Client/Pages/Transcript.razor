@@ -26,13 +26,13 @@ else
                         <ul>
                           <li> <iframe height="230" width="400" src="@this.VideosThumbnails[videoInfo.id]" frameborder="0" allowfullscreen></iframe></li>
                           <li><strong>"@videoInfo.name"</strong></li>
-                        </ul>>
+                        </ul>
                     </div>
                     <div>
-                       <button type="submit" class="button_transcript" > 
+                       <button type="submit" class="button_transcript"> 
                             Get Transcript
                         </button>
-                        <button type="submit" class="button_transcript" > 
+                        <button type="submit" class="button_transcript"> 
                             Get Summary
                         </button>
                     </div>
@@ -74,9 +74,6 @@ else
             var thumbnailBase64 = await httpClient.GetStringAsync($"VideoIndexer/GetVideoThumbnail" +
                 $"?videoId={singleVideo.id}&thumbnailId={singleVideo.thumbnailId}");
             var imgSrc = String.Format("data:image/gif;base64,{0}", thumbnailBase64);
-            var Caption = await httpClient.GetStringAsync($"VideoIndexer/GetVideoCaption" +
-                $"?videoId={singleVideo.id}");
-            this.VideosTranscript.Add(singleVideo.id, Caption);
             this.VideosThumbnails.Add(singleVideo.id, imgSrc);
             var videoAccesstoken = await httpClient.GetStringAsync($"VideoIndexer/GetVideoAccessToken" +
                 $"?videoId={singleVideo.id}&allowEdit=true");
@@ -86,4 +83,24 @@ else
         this.IsLoading = false;
     }
 
+  /*   private async Task GetTranscript()
+     {
+        this.IsLoading = true;
+        this.VideosTranscript = new Dictionary<string, string>();
+        var Caption = await httpClient.GetStringAsync($"VideoIndexer/GetVideoCaption" +
+                $"?videoId={id}");
+        this.VideosTranscript.Add(id, Caption);
+        this.IsLoading = false;
+        
+    } 
+     private async Task GetCaption()
+     {
+        this.IsLoading = true;
+        this.VideosTranscript = new Dictionary<string, string>();
+        var Caption = await httpClient.GetStringAsync($"VideoIndexer/GetVideoCaption" +
+                $"?videoId={id}");
+        this.VideosTranscript.Add(id, Caption);
+        this.IsLoading = false;        
+    } 
+    */
 }
