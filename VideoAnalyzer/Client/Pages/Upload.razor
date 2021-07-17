@@ -11,20 +11,20 @@
     <ValidationSummary>
     </ValidationSummary>
     <div class="container">
-        <div class="form-group">
+        <div class="search">
             <span class="@CurrentTheme.RequiredFieldIndicatorClass">*</span>
             <label>
                 @Loc["TextName"]
             </label>
-            <InputText class="form-control" placeholder="@Loc["TextTypeVideoName"]" @bind-Value="this.Model.Name" />
+            <InputText placeholder="@Loc["TextTypeVideoName"]" @bind-Value="this.Model.Name" />
             <ValidationMessage For="@(() => Model.Name)" />
         </div>
-        <div class="from-group">
+        <div class="search">
             <span class="@CurrentTheme.RequiredFieldIndicatorClass">*</span>
             <label>
                 @Loc["TextSourceVideoUrl"]
             </label>
-            <InputText class="form-control" placeholder="@Loc["TextTypeSourceVideoUrl"]" @bind-Value="Model.VideoUrl" />
+            <InputText  placeholder="@Loc["TextTypeSourceVideoUrl"]" @bind-Value="Model.VideoUrl" />
             <ValidationMessage For="@(() => Model.VideoUrl)" />
         </div>
         <div class="form-check">
@@ -33,10 +33,14 @@
                 @Loc["TextSendSuccessEmail"]
             </label>
         </div>
-        <div class="form-group">
+        <div class="search">
             @if (IsUploading == false)
             {
-                <button type="submit" class="@CurrentTheme.PrimaryButtonClass">@Loc["TextUpload"]</button>
+                 <button type="submit">
+                    <i class="upload-button"
+                        style="font-size: 18px;">
+                    </i>
+                </button>
             }
             else
             {

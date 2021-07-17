@@ -8,13 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="Pages\Upload.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Pages\background.jpg" />
     <None Remove="Pages\background.png" />
+    <None Remove="Pages\bg_home.jpg" />
+    <None Remove="Pages\cloud-upload.jpg" />
     <None Remove="Pages\cool-background.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Pages\background.png" />
+    <Content Include="Pages\bg_home.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\cloud-upload.jpg" />
+    <Content Include="Pages\Upload.resx" />
   </ItemGroup>
 
   <ItemGroup>

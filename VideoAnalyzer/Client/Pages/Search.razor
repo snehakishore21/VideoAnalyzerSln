@@ -21,44 +21,39 @@
    </form>
 </div>
 </li>
+</ul>
 @if (IsLoading)
 {
 <LoadingIndicator></LoadingIndicator> }
             else
             {
 @if (this.FoundVideos != null)
-    {
-        <li>
+    {<li>
             <div class="row">
 
                 @foreach (var videoInfo in this.FoundVideos.results)
                 {
-                    <ul >
-                        <li>
                             <VideoCard  LinkUrl="@this.VideosPageUrls[videoInfo.id]"
-           ThumbnailSrc="@this.VideosThumbnails[videoInfo.id]"
-           VideoDescription="@videoInfo.description"
-           VideoName="@videoInfo.name">
+                                        ThumbnailSrc="@this.VideosThumbnails[videoInfo.id]"
+                                        VideoDescription="@videoInfo.description"
+                                        VideoName="@videoInfo.name">
                             </VideoCard>
-                        </li>
-                        <li>
                             <div class="instance">
                                 <a class="box">
                                     @this.Instances[videoInfo.id]
                                 </a>
                             </div>
-                        </li> 
-                    </ul>
                 }
 </div>
-</li>}
+</li>
+}
 
-<li>
+
                 <div class="row">
                     @Message
                 </div>
-            </li>}
-                 </ul>
+           }
+                 
                
 
 

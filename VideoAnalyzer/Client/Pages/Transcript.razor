@@ -25,16 +25,24 @@ else
                     <div class="col-md-6">
                         <ul>
                           <li> <iframe height="230" width="400" src="@this.VideosThumbnails[videoInfo.id]" frameborder="0" allowfullscreen></iframe></li>
-                          <li><strong>"@videoInfo.name"</strong></li>
-                        </ul>
-                    </div>
-                    <div>
+                          <li><strong>@videoInfo.name</strong></li>
+                        <li>
                        <button type="submit" class="button_transcript"> 
                             Get Transcript
-                        </button>
+                        </button>                        
                         <button type="submit" class="button_transcript"> 
                             Get Summary
                         </button>
+                         </li>
+                        </ul>
+                    </div>
+                    <div class="div-scroll">
+                        Transcript
+                         @this.VideosTranscript[videoInfo.id]
+                    </div>
+                    <div class="div-scroll">
+                        Summary
+                         @this.VideosSummary[videoInfo.id]
                     </div>
                 </div>
             </div>
@@ -50,6 +58,8 @@ else
     private Dictionary<string, string> VideosSummary { get; set; }
     private Dictionary<string, string> VideosPageUrls { get; set; }
     private bool IsLoading { get; set; } = false;
+    private bool IsTr = false;
+    private Dictionary<string, bool> IsTranscriptChosen { get; set; } = new Dictionary<string, bool>();
 
     private string EncodedCurrentUrl
     {
@@ -77,10 +87,45 @@ else
             this.VideosThumbnails.Add(singleVideo.id, imgSrc);
             var videoAccesstoken = await httpClient.GetStringAsync($"VideoIndexer/GetVideoAccessToken" +
                 $"?videoId={singleVideo.id}&allowEdit=true");
+            var Caption = await httpClient.GetStringAsync($"VideoIndexer/GetVideoCaption" +
+                $"?videoId={singleVideo.id}");
+            this.VideosTranscript.Add(singleVideo.id, Caption);
+
+            var Summary = await httpClient.GetStringAsync($"VideoIndexer/GetVideoSummary" +
+                $"?videoId={singleVideo.id}");
+            this.VideosSummary.Add(singleVideo.id, Summary);
+
             string link = $"/Video/{singleVideo.accountId}/{singleVideo.id}/{location}/{videoAccesstoken}";
             this.VideosPageUrls.Add(singleVideo.id, link);
+            this.IsTranscriptChosen.Add(singleVideo.id,false);
         };
         this.IsLoading = false;
+    }
+
+    private  void TrascriptFunc( string id)
+    {
+        if (this.IsTranscriptChosen[id] == false)
+        {
+            this.IsTranscriptChosen[id] = true; 
+        }
+        else
+        {
+             this.IsTranscriptChosen[id] = false; 
+        }
+    }
+
+
+    
+    private  async Task TrascriptFunc1()
+    {
+       if (this.IsTr == false)
+        {
+            this.IsTr = true; 
+        }
+        else
+        {
+             this.IsTr= false; 
+        }
     }
 
   /*   private async Task GetTranscript()

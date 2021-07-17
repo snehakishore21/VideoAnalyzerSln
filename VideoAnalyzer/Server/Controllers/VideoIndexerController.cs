@@ -307,8 +307,32 @@ namespace VideoAnalyzer.Server.Controllers
                 this.AzureConfiguration.VideoIndexerConfiguration.SubscriptionKey);
             var result = await client.GetStringAsync(requestUrl);
             //GetSummary(result.ToString());
-            GetTranscript(result);
+            //GetTranscript(result);
             return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetVideoSummary(string videoId)
+        {
+            AzureVideoIndexerHelper helper = new AzureVideoIndexerHelper(this.AzureConfiguration,
+                this.CreateAuthorizedHttpClient());
+            string videoAccessToken = await helper.GetVideoAccessTokenStringAsync(videoId, true);
+            string format = "Txt";
+            string requestUrl = $"{this.AzureConfiguration.VideoIndexerConfiguration.BaseAPIUrl}" +
+                $"/{this.AzureConfiguration.VideoIndexerConfiguration.Location}" +
+                $"/Accounts/{this.AzureConfiguration.VideoIndexerConfiguration.AccountId}" +
+                $"/Videos/{videoId}/Captions" +
+                 $"?indexId={videoId}" +
+                 $"&format={format}" +
+                $"&accessToken={videoAccessToken}";
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key",
+                this.AzureConfiguration.VideoIndexerConfiguration.SubscriptionKey);
+            var result = await client.GetStringAsync(requestUrl);
+            var summary = GetSummary(result.ToString());
+            //
+            //GetTranscript(result);
+            return Ok(summary);
         }
 
         [HttpGet("[action]")]
@@ -354,23 +378,23 @@ namespace VideoAnalyzer.Server.Controllers
                 writer.WriteLine(transcript);
             }
         }
-        public void GetSummary(string filename)
+        public string GetSummary(string transcript)
         {
-            SummarizerArguments sumargs = new SummarizerArguments
-            {
-                Language = "en",
-                MaxSummarySentences = 1000,
-                MaxSummarySizeInPercent = 30,
-            };
-            OpenTextSummarizer.FileContentProvider f = new FileContentProvider("C:\\invoice\\abc.txt");
-            SummarizedDocument summaryDoc =Summarizer.Summarize(f,sumargs);
-
-            string summary = summaryDoc.ToString();
-            string fullPath = "C:\\invoice\\abc2.txt";
+            string fullPath = "C:\\invoice\\abc.txt";
             using (StreamWriter writer = new StreamWriter(fullPath))
             {
-                writer.WriteLine(summary);
+                writer.WriteLine(transcript);
             }
+
+            var summarizedDocument = OpenTextSummarizer.Summarizer.Summarize(
+                new OpenTextSummarizer.FileContentProvider("C:\\invoice\\abc.txt"),
+                new SummarizerArguments()
+                {
+                    Language = "en",
+                    MaxSummarySentences = 5
+                });
+
+            return summarizedDocument.Sentences.ToString();
             //SummarizedDocument doc = Summarizer.Summarize(content, sumargs);
             // string summary = string.Join("\r\n\r\n", doc.Sentences.ToArray());
             //Console.WriteLine(summary);
